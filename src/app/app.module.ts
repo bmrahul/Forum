@@ -12,6 +12,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
+/****** Services ******/
+import { SignupService } from './Shared/signup.service';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './basic/login.component';
 import { SignupComponent } from './basic/signup.component';
@@ -46,7 +49,9 @@ import { environment } from '../environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule
   ],
-  providers: [],
+  providers: [
+    SignupService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
