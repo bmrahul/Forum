@@ -24,6 +24,7 @@ import { SidebarComponent } from './basic/sidebar.component';
 import { ContentComponent } from './basic/content.component';
 import { DashboardComponent } from './basic/dashboard.component';
 import { environment } from '../environments/environment';
+import { RcryptionService } from './Shared/rcryption.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { environment } from '../environments/environment';
     AngularFireDatabaseModule
   ],
   providers: [
-    SignupService
+    SignupService,
+    RcryptionService
   ],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,7 @@ import { NgbDatepickerConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SignupService } from '../Shared/signup.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../Shared/user';
+import { RcryptionService } from '../Shared/rcryption.service';
 
 const now = new Date();
 
@@ -92,11 +93,13 @@ export class SignupComponent implements OnInit {
     private datepicker: NgbDatepickerConfig,
     private modalService: NgbModal,
     private signup: SignupService,
+    private rcrypt: RcryptionService,
     private toastr: ToastrService
   ) {
     datepicker.minDate = {year: 1900, month: 1, day: 1};
     datepicker.maxDate = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
     datepicker.outsideDays = 'hidden';
+    rcrypt.encrypt('this');
   }
 
   ngOnInit() {
