@@ -23,6 +23,14 @@
             requried maxlength="30">
         </div>
       </div>
+      <div class="col-md-3">
+        <div class="custom-file">
+          <input class="profilePic form-control" readonly name="profilePic" #name="ngModel" [(ngModel)]="signup.selectedUser.profilePic"
+            (click)="open(content)" id="profilePic">
+          <label for="profilePic" class="fasPic fas fa-camera-retro"></label>
+          <img class="profileImg" *ngIf="croppedImage" (click)="open(content)" [src]="croppedImage" />
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-3">
@@ -69,7 +77,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="confPass" class="sr-only">Confirm Password</label>
-          <input type="password" id="confPass" name="confPass" #name="ngModel" [(ngModel)]="confPass" (keyup)="checkPassword()" class="form-control"
+          <input type="password" id="confPass" name="confPass" #name="ngModel" [(ngModel)]="confPass" class="form-control"
             placeholder="Confirm Password" requried maxlength="10">
         </div>
       </div>
@@ -83,5 +91,28 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-9">
+        <button class="btn btn-primary btn-block col-md-2" *ngIf="signupForm.valid" type="submit">Save</button>
+        <!-- <button class="btn btn-outline-primary btn-block col-md-2" *ngIf="signupForm.invalid" [disabled]="signupForm.invalid" type="submit">Save</button> -->
+      </div>
+    </div>
   </form>
 </div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Profile Picture</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <input type="file" (change)="fileChangeEvent($event)" />
+    <image-cropper class="proImage" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+      [resizeToWidth]="150" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (loadImageFailed)="imageLoadFailed()"></image-cropper>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" (click)="c('Close click')">Save</button>
+  </div>
+</ng-template>
