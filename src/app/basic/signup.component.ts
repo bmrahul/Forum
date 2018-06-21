@@ -4,6 +4,7 @@ import { SignupService } from '../Shared/signup.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../Shared/user';
 import { RcryptionService } from '../Shared/rcryption.service';
+import { NgForm } from '@angular/forms';
 
 const now = new Date();
 
@@ -88,6 +89,8 @@ export class SignupComponent implements OnInit {
   croppedImage: any = '';
   cropperReady = false;
   usersList: User[];
+  model: User = new User();
+  confPass: '';
 
   constructor(
     private datepicker: NgbDatepickerConfig,
@@ -131,6 +134,31 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.signup.insertUser(this.signup.selectedUser));
     this.signup.insertUser(this.signup.selectedUser);
+  }
+
+  resetForm(form?: NgForm) {
+    if (form != null) {
+      form.reset();
+    }
+    this.signup.selectedUser = {
+      $key: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      profilePic: '',
+      emailID: '',
+      mobileNo: null,
+      birthday: {
+        day: null,
+        month: null,
+        year: null
+      },
+      username: '',
+      password: '',
+      address: '',
+    };
+    this.confPass = '';
   }
 }

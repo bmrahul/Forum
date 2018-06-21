@@ -1,32 +1,32 @@
 <div class="container mt-4 pt-5">
   <h1 class="h3">Please sign up</h1>
-  <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
+  <form novalidate #signupForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col-md-3">
         <div class="form-group">
           <label for="firstName" class="sr-only">First Name</label>
-          <input id="firstName" name="firstName" #name="ngModel" [(ngModel)]="signup.selectedUser.firstName" class="form-control" placeholder="First Name"
-            requried maxlength="30">
+          <input id="firstName" name="firstName" [(ngModel)]="model.firstName" class="form-control" placeholder="First Name"
+             requried minlength="3" maxlength="30">
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="middleName" class="sr-only">Middle Name</label>
-          <input id="middleName" name="middleName" #name="ngModel" [(ngModel)]="signup.selectedUser.middleName" class="form-control"
+          <input id="middleName" name="middleName" [(ngModel)]="model.middleName" class="form-control"
             placeholder="Middle Name" requried maxlength="30">
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="lastName" class="sr-only">Last Name</label>
-          <input id="lastName" name="lastName" #name="ngModel" [(ngModel)]="signup.selectedUser.lastName" class="form-control" placeholder="Last Name"
+          <input id="lastName" name="lastName" [(ngModel)]="model.lastName" class="form-control" placeholder="Last Name"
             requried maxlength="30">
         </div>
       </div>
       <div class="col-md-3">
         <div class="custom-file">
-          <input class="profilePic form-control" readonly name="profilePic" #name="ngModel" [(ngModel)]="signup.selectedUser.profilePic"
-            (click)="open(content)" id="profilePic">
+          <input class="profilePic form-control" readonly name="profilePic" [(ngModel)]="model.profilePic"
+            (click)="open(content)" id="profilePic" required>
           <label for="profilePic" class="fasPic fas fa-camera-retro"></label>
           <img class="profileImg" *ngIf="croppedImage" (click)="open(content)" [src]="croppedImage" />
         </div>
@@ -36,21 +36,21 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="emailID" class="sr-only">Email ID</label>
-          <input id="emailID" name="emailID" #name="ngModel" [(ngModel)]="signup.selectedUser.emailID" class="form-control" placeholder="Email ID"
-            requried maxlength="80">
+          <input id="emailID" name="emailID" [(ngModel)]="model.emailID" class="form-control" placeholder="Email ID"
+            requried pattern="[a-z0-9._]+@[a-z0-9.-]+\.[a-z]{2,3}$" minlength="10" maxlength="80">
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="mobileNo" class="sr-only">Mobile Number</label>
-          <input id="mobileNo" name="mobileNo" #name="ngModel" [(ngModel)]="signup.selectedUser.mobileNo" class="form-control" placeholder="Mobile Number"
+          <input id="mobileNo" name="mobileNo" [(ngModel)]="model.mobileNo" class="form-control" placeholder="Mobile Number"
             requried maxlength="10">
         </div>
       </div>
       <div class="col-md-3">
         <div class="input-group">
-          <input class="form-control" name="birthday" #name="ngModel" [(ngModel)]="signup.selectedUser.birthday" placeholder="Date of Birth"
-            ngbDatepicker #d="ngbDatepicker">
+          <input class="form-control" name="birthday" [(ngModel)]="model.birthday" placeholder="Date of Birth"
+            ngbDatepicker #d="ngbDatepicker" required>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
               <i class="far fa-calendar-alt"></i>
@@ -63,21 +63,21 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="username" class="sr-only">Username</label>
-          <input id="username" name="username" #name="ngModel" [(ngModel)]="signup.selectedUser.username" class="form-control" placeholder="Username"
+          <input id="username" name="username" [(ngModel)]="model.username" class="form-control" placeholder="Username"
             requried maxlength="30">
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="password" class="sr-only">Password</label>
-          <input type="password" id="password" name="password" #name="ngModel" [(ngModel)]="signup.selectedUser.password" class="form-control"
+          <input type="password" id="password" name="password" [(ngModel)]="model.password" class="form-control"
             placeholder="Password" requried maxlength="30">
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="confPass" class="sr-only">Confirm Password</label>
-          <input type="password" id="confPass" name="confPass" #name="ngModel" [(ngModel)]="confPass" class="form-control"
+          <input type="password" id="confPass" name="confPass" [(ngModel)]="confPass" class="form-control"
             placeholder="Confirm Password" requried maxlength="10">
         </div>
       </div>
@@ -86,7 +86,7 @@
       <div class="col-md-9">
         <div class="form-group">
           <label for="address" class="sr-only">Address</label>
-          <textarea id="address" name="address" #name="ngModel" [(ngModel)]="signup.selectedUser.address" class="form-control" placeholder="Address"
+          <textarea id="address" name="address" [(ngModel)]="model.address" class="form-control" placeholder="Address"
             requried maxlength="100"></textarea>
         </div>
       </div>
@@ -94,7 +94,7 @@
     <div class="row">
       <div class="col-md-9">
         <button class="btn btn-primary btn-block col-md-2" *ngIf="signupForm.valid" type="submit">Save</button>
-        <!-- <button class="btn btn-outline-primary btn-block col-md-2" *ngIf="signupForm.invalid" [disabled]="signupForm.invalid" type="submit">Save</button> -->
+        <button class="btn btn-outline-primary btn-block col-md-2" *ngIf="signupForm.invalid" [disabled]="signupForm.invalid" type="submit">Save</button>
       </div>
     </div>
   </form>
