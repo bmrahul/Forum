@@ -89,8 +89,23 @@ export class SignupComponent implements OnInit {
   croppedImage: any = '';
   cropperReady = false;
   usersList: User[];
-  model: User = new User();
   confPass: '';
+  model = {
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    username: '',
+    password: '',
+    emailID: '',
+    mobileNo: null,
+    profilePic: '',
+    address: '',
+    birthday: {
+      day: null,
+        month: null,
+        year: null,
+    }
+  };
 
   constructor(
     private datepicker: NgbDatepickerConfig,

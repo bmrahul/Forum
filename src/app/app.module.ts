@@ -14,6 +14,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 
 /****** Services ******/
 import { SignupService } from './Shared/signup.service';
+import { environment } from '../environments/environment';
+import { RcryptionService } from './Shared/rcryption.service';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './basic/login.component';
@@ -23,8 +25,7 @@ import { FooterComponent } from './basic/footer.component';
 import { SidebarComponent } from './basic/sidebar.component';
 import { ContentComponent } from './basic/content.component';
 import { DashboardComponent } from './basic/dashboard.component';
-import { environment } from '../environments/environment';
-import { RcryptionService } from './Shared/rcryption.service';
+import { TestComponent } from './basic/test.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RcryptionService } from './Shared/rcryption.service';
     FooterComponent,
     SidebarComponent,
     ContentComponent,
-    DashboardComponent
+    DashboardComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
