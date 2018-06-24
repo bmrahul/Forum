@@ -91,6 +91,7 @@ export class SignupComponent implements OnInit {
   usersList: User[];
   confPass: '';
   model = {
+    $key: '',
     firstName: '',
     middleName: '',
     lastName: '',
@@ -102,8 +103,8 @@ export class SignupComponent implements OnInit {
     address: '',
     birthday: {
       day: null,
-        month: null,
-        year: null,
+      month: null,
+      year: null,
     }
   };
 
@@ -137,7 +138,7 @@ export class SignupComponent implements OnInit {
     this.imageChangedEvent = event;
   }
   imageCropped(image: string) {
-    this.signup.selectedUser.profilePic = image;
+    this.model.profilePic = image;
     this.croppedImage = image;
   }
   imageLoaded() {
@@ -149,8 +150,8 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.signup.insertUser(this.signup.selectedUser));
-    this.signup.insertUser(this.signup.selectedUser);
+    console.log(this.model);
+    // this.signup.insertUser(this.model);
   }
 
   resetForm(form?: NgForm) {

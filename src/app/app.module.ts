@@ -25,7 +25,6 @@ import { FooterComponent } from './basic/footer.component';
 import { SidebarComponent } from './basic/sidebar.component';
 import { ContentComponent } from './basic/content.component';
 import { DashboardComponent } from './basic/dashboard.component';
-import { TestComponent } from './basic/test.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +36,6 @@ import { TestComponent } from './basic/test.component';
     SidebarComponent,
     ContentComponent,
     DashboardComponent,
-    TestComponent
   ],
   imports: [
     BrowserModule,

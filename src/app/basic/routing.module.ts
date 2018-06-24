@@ -8,7 +8,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { LoginComponent } from './login.component';
 import { DashboardComponent } from './dashboard.component';
 import { SignupComponent } from './signup.component';
-import { TestComponent } from './test.component';
 
 const APP_ROUTES: Routes = [
   { path: '/signup', component: SignupComponent },
@@ -28,7 +27,6 @@ const APP_ROUTES: Routes = [
     LoginComponent,
     SignupComponent,
     DashboardComponent,
-    TestComponent,
   ]
 })
 export class RoutingModule { }
