@@ -4,7 +4,6 @@ import { SignupService } from '../Shared/signup.service';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../Shared/user';
 import { RcryptionService } from '../Shared/rcryption.service';
-import { NgForm } from '@angular/forms';
 
 const now = new Date();
 
@@ -89,23 +88,8 @@ export class SignupComponent implements OnInit {
   croppedImage: any = '';
   cropperReady = false;
   usersList: User[];
-  confPass: '';
   model = {
-    $key: '',
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    username: '',
-    password: '',
-    emailID: '',
-    mobileNo: null,
-    profilePic: '',
-    address: '',
-    birthday: {
-      day: null,
-      month: null,
-      year: null,
-    }
+    confPass: ''
   };
 
   constructor(
@@ -118,11 +102,10 @@ export class SignupComponent implements OnInit {
     datepicker.minDate = {year: 1900, month: 1, day: 1};
     datepicker.maxDate = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
     datepicker.outsideDays = 'hidden';
-    rcrypt.encrypt('this');
   }
 
   ngOnInit() {
-    this.signup.getData('/user')
+    this.signup.getData('/User')
     .subscribe(response => {
       console.log(response);
       this.usersList = response;
@@ -138,7 +121,7 @@ export class SignupComponent implements OnInit {
     this.imageChangedEvent = event;
   }
   imageCropped(image: string) {
-    this.model.profilePic = image;
+    this.signup.selectedUser.profilePic = image;
     this.croppedImage = image;
   }
   imageLoaded() {
@@ -149,32 +132,29 @@ export class SignupComponent implements OnInit {
     console.log('Load failed');
   }
 
-  onSubmit() {
-    console.log(this.model);
-    // this.signup.insertUser(this.model);
+  checkUsername(username: string) {
+    for (let i = 0; i < this.usersList.length; i++) {
+      if (this.usersList[i].username === username) {
+        this.signup.selectedUser.username = '';
+        this.toastr.warning('Username already taken');
+      }
+    }
   }
 
-  resetForm(form?: NgForm) {
-    if (form != null) {
-      form.reset();
+  checkEmail(email: string) {
+    for (let i = 0; i < this.usersList.length; i++) {
+      if (this.usersList[i].emailID === email) {
+        this.signup.selectedUser.emailID = '';
+        this.toastr.warning('Email ID already registered.');
+      }
     }
-    this.signup.selectedUser = {
-      $key: '',
-      firstName: '',
-      middleName: '',
-      lastName: '',
-      profilePic: '',
-      emailID: '',
-      mobileNo: null,
-      birthday: {
-        day: null,
-        month: null,
-        year: null
-      },
-      username: '',
-      password: '',
-      address: '',
-    };
-    this.confPass = '';
+  }
+
+  onSubmit() {
+    this.signup.selectedUser.password = this.rcrypt.encrypt(this.signup.selectedUser.password);
+    console.log(this.signup.selectedUser);
+    this.signup.insertUser(this.signup.selectedUser);
+    this.croppedImage = '';
+    this.toastr.success('Details saved successfully');
   }
 }

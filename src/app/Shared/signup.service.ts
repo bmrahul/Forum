@@ -16,7 +16,7 @@ export class SignupService {
   }
 
   insertUser(user: User) {
-    const obj = this.ngFireDB.database.ref('/user');
+    const obj = this.ngFireDB.database.ref('/User');
     obj.push(user);
   }
 }

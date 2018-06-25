@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <h1 class="h3">Please sign up</h1>
-  <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+  <form #signupForm="ngForm" (ngSubmit)="onSubmit(); signupForm.reset()">
     <div class="row">
       <div class="col-md-3">
         <div class="form-group">
@@ -8,7 +8,7 @@
           <input class="form-control" id="firstName" required minlength="3" maxlength="30" [ngClass]="{
                    'is-valid': firstName.valid && (firstName.dirty || firstName.touched),
                    'is-invalid': firstName.invalid && (firstName.dirty || firstName.touched)
-                 }" [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel" placeholder="First Name">
+                 }" [(ngModel)]="signup.selectedUser.firstName" name="firstName" #firstName="ngModel" placeholder="First Name">
           <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" style="top: 70%" class="invalid-tooltip">
             <div [hidden]="!firstName.errors.required">
               First Name is required!
@@ -28,7 +28,7 @@
           <input class="form-control" id="middleName" required minlength="3" maxlength="30" [ngClass]="{
                      'is-valid': middleName.valid && (middleName.dirty || middleName.touched),
                      'is-invalid': middleName.invalid && (middleName.dirty || middleName.touched)
-                   }" [(ngModel)]="model.middleName" name="middleName" #middleName="ngModel" placeholder="Middle Name">
+                   }" [(ngModel)]="signup.selectedUser.middleName" name="middleName" #middleName="ngModel" placeholder="Middle Name">
           <div *ngIf="middleName.invalid && (middleName.dirty || middleName.touched)" style="top: 70%" class="invalid-tooltip">
             <div [hidden]="!middleName.errors.required">
               Middle Name is required!
@@ -48,7 +48,7 @@
           <input class="form-control" id="lastName" required minlength="3" maxlength="30" [ngClass]="{
                        'is-valid': lastName.valid && (lastName.dirty || lastName.touched),
                        'is-invalid': lastName.invalid && (lastName.dirty || lastName.touched)
-                     }" [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel" placeholder="Last Name">
+                     }" [(ngModel)]="signup.selectedUser.lastName" name="lastName" #lastName="ngModel" placeholder="Last Name">
           <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" style="top: 70%" class="invalid-tooltip">
             <div [hidden]="!lastName.errors.required">
               Last Name is required!
@@ -67,7 +67,7 @@
           <input class="profilePic form-control" readonly name="profilePic" [ngClass]="{
             'is-valid': profilePic.valid && (profilePic.dirty || profilePic.touched),
             'is-invalid': profilePic.invalid && (profilePic.dirty || profilePic.touched)
-          }" [(ngModel)]="model.profilePic" (click)="open(content)" id="profilePic" #profilePic="ngModel" required>
+          }" [(ngModel)]="signup.selectedUser.profilePic" (click)="open(content)" id="profilePic" #profilePic="ngModel" required>
           <label for="profilePic" class="fasPic fas fa-camera-retro"></label>
           <img class="profileImg" *ngIf="croppedImage" (click)="open(content)" [src]="croppedImage" />
           <div *ngIf="profilePic.invalid && (profilePic.dirty || profilePic.touched)" style="top: 395%; left: 5%;" class="invalid-tooltip">
@@ -85,7 +85,8 @@
           <input class="form-control" id="emailID" required pattern="[a-z0-9._]+@[a-z0-9.-]+\.[a-z]{2,3}$" [ngClass]="{
                      'is-valid': emailID.valid && (emailID.dirty || emailID.touched),
                      'is-invalid': emailID.invalid && (emailID.dirty || emailID.touched)
-                   }" [(ngModel)]="model.emailID" name="emailID" #emailID="ngModel" placeholder="Email Address">
+                   }" [(ngModel)]="signup.selectedUser.emailID" name="emailID" #emailID="ngModel"
+                   (keyup)="checkEmail(signup.selectedUser.emailID)" placeholder="Email Address">
           <div *ngIf="emailID.invalid && (emailID.dirty || emailID.touched)" style="top: 70%" class="invalid-tooltip">
             <div [hidden]="!emailID.errors.required">
               Email address is required!
@@ -99,10 +100,10 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="mobileNo" class="sr-only">Mobile Number</label>
-          <input class="form-control" id="mobileNo" required minlength="10" [ngClass]="{
+          <input class="form-control" id="mobileNo" required minlength="10" maxlength="10" [ngClass]="{
                        'is-valid': mobileNo.valid && (mobileNo.dirty || mobileNo.touched),
                        'is-invalid': mobileNo.invalid && (mobileNo.dirty || mobileNo.touched)
-                     }" [(ngModel)]="model.mobileNo" name="mobileNo" #mobileNo="ngModel" placeholder="Mobile Number">
+                     }" [(ngModel)]="signup.selectedUser.mobileNo" name="mobileNo" #mobileNo="ngModel" placeholder="Mobile Number">
           <div *ngIf="mobileNo.invalid && (mobileNo.dirty || mobileNo.touched)" style="top: 70%" class="invalid-tooltip">
             <div [hidden]="!mobileNo.errors.required">
               Mobile Number is required!
@@ -115,7 +116,7 @@
       </div>
       <div class="col-md-3">
         <div class="input-group">
-          <input class="form-control" id="birthday" name="birthday" #birthday="ngModel" [(ngModel)]="model.birthday" [ngClass]="{
+          <input class="form-control" id="birthday" name="birthday" #birthday="ngModel" [(ngModel)]="signup.selectedUser.birthday" [ngClass]="{
             'is-valid': birthday.valid && (birthday.dirty || birthday.touched),
             'is-invalid': birthday.invalid && (birthday.dirty || birthday.touched)
           }" placeholder="Date of Birth" ngbDatepicker #d="ngbDatepicker" required>
@@ -139,16 +140,17 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="username" class="sr-only">Username</label>
-          <input class="form-control" id="username" required pattern="[A-Za-z0-9._]{3,30}$" minlength="3" maxlength="30" [ngClass]="{
+          <input class="form-control" id="username" required pattern="[A-Za-z0-9]{3,30}$" minlength="3" maxlength="30" [ngClass]="{
                        'is-valid': username.valid && (username.dirty || username.touched),
                        'is-invalid': username.invalid && (username.dirty || username.touched)
-                     }" [(ngModel)]="model.username" name="username" #username="ngModel" placeholder="Username">
+                     }" [(ngModel)]="signup.selectedUser.username" name="username" #username="ngModel"
+                     (keyup)="checkUsername(signup.selectedUser.username)" placeholder="Username">
           <div *ngIf="username.invalid && (username.dirty || username.touched)" style="top: 70%" class="invalid-tooltip">
             <div [hidden]="!username.errors.required">
               Username is required!
             </div>
             <div [hidden]="!username.errors.pattern">
-              Username can contain characters ". _"
+              Username can contain characters & numerics only
             </div>
             <div [hidden]="!username.errors.minlength">
               Username must be at least 3 characters long.
@@ -165,7 +167,7 @@
           <input type="password" class="form-control" id="password" required minlength="6" maxlength="30" [ngClass]="{
                          'is-valid': password.valid && (password.dirty || password.touched),
                          'is-invalid': password.invalid && (password.dirty || password.touched)
-                       }" [(ngModel)]="model.password" name="password" #password="ngModel" placeholder="Password">
+                       }" [(ngModel)]="signup.selectedUser.password" name="password" #password="ngModel" placeholder="Password">
           <div *ngIf="password.invalid && (password.dirty || password.touched)" style="top: 70%" class="invalid-tooltip">
             <div [hidden]="!password.errors.required">
               Password is required!
@@ -182,7 +184,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="confpass" class="sr-only">Confirm Password</label>
-          <input type="password" class="form-control" id="confpass" required [pattern]="model.password" [ngClass]="{
+          <input type="password" class="form-control" id="confpass" required [pattern]="signup.selectedUser.password" [ngClass]="{
                            'is-valid': confpass.valid && (confpass.dirty || confpass.touched),
                            'is-invalid': confpass.invalid && (confpass.dirty || confpass.touched)
                          }" [(ngModel)]="model.confpass" name="confpass" #confpass="ngModel" placeholder="Confirm Password">
@@ -204,7 +206,7 @@
           <textarea class="form-control" id="address" required maxlength="100" [ngClass]="{
                            'is-valid': address.valid && (address.dirty || address.touched),
                            'is-invalid': address.invalid && (address.dirty || address.touched)
-                         }" [(ngModel)]="model.address" name="address" #address="ngModel" placeholder="Address"></textarea>
+                         }" [(ngModel)]="signup.selectedUser.address" name="address" #address="ngModel" placeholder="Address"></textarea>
           <div *ngIf="address.invalid && (address.dirty || address.touched)" style="top: 80%" class="invalid-tooltip">
             <div [hidden]="!address.errors.required">
               Address is required!
